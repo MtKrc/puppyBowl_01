@@ -28,10 +28,36 @@ export const fetchAllPlayers = async () => {
 };
 
 export const fetchSinglePlayer = async (playerId) => {
-
+  try {
+    const sinResponse = await fetch('${APIURL}players/${playerId}');
+    const sinResult = await sinResponse.json();
+    console.log(sinResult.data.player);
+    if (sinResult.error) {
+      throw sinResult.error
+    }
+    return sinResult.data.player;
+  } catch (error) {
+    console.error('Uh oh, trouble fetching players!', error);
+  }
 };
 
 export const addNewPlayer = async (playerObj) => {
+  try {
+    const response = await fetch( 
+      '${APIURL}players',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type' : 'application/json',          
+        },
+        body: JSON.stringify(playerObj),
+      }
+    );
+    const result = await response.json();
+    console.log(result);  
+  } catch (error){
+    console.log('Uh oh, trouble fetching players!', error);
+  }
 
 };
 

@@ -1,4 +1,4 @@
-import { fetchAllPlayers } from './ajaxHelpers';
+import { addNewPlayer, fetchAllPlayers, fetchSinglePlayer } from './ajaxHelpers';
 
 const playerContainer = document.getElementById('all-players-container');
 const newPlayerFormContainer = document.getElementById('new-player-form');
@@ -40,6 +40,9 @@ export const renderAllPlayers = (playerList) => {
       /*
         YOUR CODE HERE
       */
+      const playerDeats = await fetchSinglePlayer(button.dataset.id);
+      renderSinglePlayer(playerDeats);
+      
     });
   }
 };
@@ -85,5 +88,17 @@ export const renderNewPlayerForm = () => {
     /*
       YOUR CODE HERE
     */
+   event.preventDefault();
+
+    let playerData = {
+      name: form.nextElementSibling.name.value,
+      breed: form.nextElementSibling.breed.value
+   }
+    addNewPlayer(playerData);
+
+      const players = await fetchAllPlayers();
+      renderAllPlayers(players)
+
+    renderNewPlayerForm()
   });
 };
